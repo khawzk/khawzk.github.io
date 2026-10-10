@@ -1,0 +1,22 @@
+title: Mark Khaw
+description: Notes on cloud, GenAI and solution architecture, in English and 中文.
+url: https://khawzk.github.io
+baseurl: ""
+permalink: /blog/:year/:month/:title/
+timezone: Asia/Kuala_Lumpur
+
+markdown: kramdown
+kramdown:
+  input: GFM
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+feed:
+  path: blog/feed.xml
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post, lang: en }
+
+exclude: [README.md, Gemfile, Gemfile.lock, vendor]

@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{%- assign t = site.data.i18n[page.lang] | default: site.data.i18n.en -%}
+{%- assign other = nil -%}
+{%- if page.ref -%}
+  {%- for p in site.posts -%}
+    {%- if p.ref == page.ref and p.lang != page.lang -%}{%- assign other = p -%}{%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+<article class="wrap post">
+  <a class="back link-u" href="{{ '/blog/' | relative_url }}{% if page.lang == 'zh' %}?lang=zh{% endif %}">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg>{{ t.all_notes }}</a>
+
+  <header class="post-head">
+    <div class="meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: t.date_format }}</time>
+      {%- for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
+    <h1>{{ page.title }}</h1>
+    {%- if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
+    {%- if other %}
+    <a class="lang-switch" href="{{ other.url | relative_url }}" lang="{{ site.data.i18n[other.lang].html_lang }}">{{ t.read_other }}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></a>
+    {%- endif %}
+  </header>
+
+  <div class="prose">
+{{ content }}
+  </div>
+</article>

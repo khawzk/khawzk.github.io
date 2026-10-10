@@ -1,0 +1,74 @@
+---
+layout: default
+title: Notes
+description: A learning log on cloud, GenAI and solution architecture, in English and 中文.
+---
+<section class="wrap notes">
+  <div class="notes-head">
+    <div>
+      <div class="eyebrow">Notes · 笔记</div>
+      <h1>Learning in public</h1>
+      <p class="lede">What I'm learning about cloud, GenAI and solution architecture, written down as I go. Some notes are in English, some in 中文, some in both.</p>
+    </div>
+    <div class="filter" role="group" aria-label="Filter by language">
+      <button type="button" data-lang="all" aria-pressed="true">All</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
+      <button type="button" data-lang="zh" aria-pressed="false" lang="zh-Hans">中文</button>
+    </div>
+  </div>
+
+  <ol class="note-list">
+    {%- for post in site.posts %}
+    {%- assign t = site.data.i18n[post.lang] | default: site.data.i18n.en %}
+    <li data-lang="{{ post.lang }}">
+      <a href="{{ post.url | relative_url }}" lang="{{ t.html_lang }}">
+        <span class="when"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: t.date_format }}</time><span class="lang">{% if post.lang == 'zh' %}中文{% else %}EN{% endif %}</span></span>
+        <span class="what">
+          <span class="title">{{ post.title }}</span>
+          <span class="excerpt">{{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 160 }}</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/></svg>
+      </a>
+    </li>
+    {%- endfor %}
+  </ol>
+  <p class="empty" hidden>No notes in this language yet.</p>
+</section>
+
+<script>
+// Language filter: ?lang=en|zh in the URL, otherwise the last choice on this device.
+(function () {
+  var buttons = document.querySelectorAll('.filter button');
+  var items = document.querySelectorAll('.note-list li');
+  var empty = document.querySelector('.notes .empty');
+
+  function apply(lang) {
+    var shown = 0;
+    Array.prototype.forEach.call(items, function (li) {
+      var on = lang === 'all' || li.getAttribute('data-lang') === lang;
+      li.hidden = !on;
+      if (on) shown++;
+    });
+    Array.prototype.forEach.call(buttons, function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    empty.hidden = shown > 0;
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('notes-lang'); } catch (e) {}
+  var fromUrl = new URLSearchParams(location.search).get('lang');
+  var valid = function (v) { return ['all', 'en', 'zh'].indexOf(v) >= 0; };
+  var start = valid(fromUrl) ? fromUrl : (valid(saved) ? saved : 'all');
+  apply(start);
+
+  Array.prototype.forEach.call(buttons, function (b) {
+    b.addEventListener('click', function () {
+      var lang = b.getAttribute('data-lang');
+      apply(lang);
+      try { localStorage.setItem('notes-lang', lang); } catch (e) {}
+      history.replaceState(null, '', lang === 'all' ? location.pathname : '?lang=' + lang);
+    });
+  });
+})();
+</script>
