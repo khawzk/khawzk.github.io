@@ -1,0 +1,13 @@
+# Interface text for the blog, by post language.
+en:
+  html_lang: en
+  notes: Notes
+  all_notes: All notes
+  read_other: 阅读中文版
+  date_format: "%b %-d, %Y"
+zh:
+  html_lang: zh-Hans
+  notes: 笔记
+  all_notes: 全部笔记
+  read_other: Read in English
+  date_format: "%Y年%-m月%-d日"

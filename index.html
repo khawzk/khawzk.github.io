@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -130,7 +133,8 @@ div.row:hover{padding-left:0}
 .cert span{font-size:13px;color:var(--muted)}
 
 /* path */
-#log{padding-top:64px;padding-bottom:128px}
+#log{padding-top:64px;padding-bottom:64px}
+#notes{padding-top:64px;padding-bottom:128px}
 .log{border-top:1px solid var(--line-2);margin-top:40px}
 
 /* career timeline graphic */
@@ -229,6 +233,7 @@ footer .bottom span{color:#A8A296;font-size:13px}
       <a class="link-u" href="#work">Work</a>
       <a class="link-u" href="#builds">Builds</a>
       <a class="link-u" href="#log">Path</a>
+      <a class="link-u" href="/blog/">Notes</a>
       <a class="link-u" href="#contact">Contact</a>
     </div>
   </nav>
@@ -463,6 +468,17 @@ footer .bottom span{color:#A8A296;font-size:13px}
     <div class="cert"><small>Dec 2025</small><b>Alibaba Cloud Certified Professional: Cloud Architect</b><span>ACP</span></div>
     <div class="cert"><small>Oct 2025</small><b>Alibaba Cloud Certified Associate: Generative AI Engineer</b><span>ACA</span></div>
     <div class="cert"><small>May 2025</small><b>AWS Certified Solutions Architect – Associate</b><span>SAA</span></div>
+  </div>
+</section>
+
+<section id="notes" class="wrap">
+  <div class="sec-head"><h2>Notes</h2><a class="link-u" href="/blog/" style="font-size:14px;color:var(--muted)">All notes · 全部笔记</a></div>
+  <div class="rows">
+    {%- for post in site.posts limit:3 %}
+    {%- assign t = site.data.i18n[post.lang] | default: site.data.i18n.en %}
+    <a class="row" href="{{ post.url | relative_url }}" lang="{{ t.html_lang }}"><span class="n">{% if post.lang == 'zh' %}中文{% else %}EN{% endif %}</span><span><span class="name">{{ post.title }}</span><span class="stack">{{ post.date | date: t.date_format }} · {{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 110 }}</span></span><span class="tag"></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C1B19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/></svg></a>
+    {%- endfor %}
   </div>
 </section>
 </main>
